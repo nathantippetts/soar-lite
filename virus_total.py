@@ -1,24 +1,40 @@
 from vault import Vault
 import json
 import hashlib
-# Run pip install virustotal-api
 from virus_total_apis import PublicApi as VirusTotalPublicApi
-# Not sure if necessary with the PyPi VT API package, but their normal API requires URLs to be base64 encoded
-import base64
-
-API_KEY = Vault.get_key_from_db()
-
-# For testing purposes
-EICAR = "X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*".encode('utf-8')
-EICAR_MD5 = hashlib.md5(EICAR).hexdigest()
-
-vt = VirusTotalPublicApi(API_KEY)
-response = vt.get_file_report(EICAR_MD5)
-print(json.dumps(response, sort_keys=False, indent=4))
 
 
+class VirusTotal(Vault):
+    """
+    Allows a user to send IoCs for reputation checks against VirusTotal
+    """
+    def __init__(self):
+        super().__init__()
+        self.app = "virus_total"
+        super().reset_database()
+        # Tries to fetch the API key, if it's not already there then ask the user to supply it
+        try:
+            self.API_KEY = super().get_apikey_from_db(self.app)
+        except:
+            self.API_KEY = super().get_apikey_from_user()
+            encrypted = super().encrypt_key(self.API_KEY)
+            super().store_key(encrypted, self.app)
+        finally:
+            self.vt = VirusTotalPublicApi(self.API_KEY)
 
-# Unrelated to testing above
-# VirusTotal's recommendation for the URL identifier
-url_id = base64.urlsafe_b64encode("http://www.reddit.com/r/learnpython".encode()).decode().strip("=")
-print(url_id)
+    def vt_hash_reputation(self):
+        # Takes a user entered hash (doesn't matter type) and sends it to virus total
+        query = input("Enter a hash: ")
+        response = self.vt.get_file_report(query)
+        print(json.dumps(response, sort_keys=False, indent=4))
+
+    def vt_url_reputation(self):
+        # Takes a user entered URL and sends it to virus total
+        query = input("Enter a URL: ")
+        response = self.vt.get_url_report(query)
+        print(json.dumps(response, sort_keys=False, indent=4))
+
+    def vt_parse_info(self):
+        # TODO: Parse important info from JSON output for easy viewing
+        pass
+

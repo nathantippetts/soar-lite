@@ -1,9 +1,10 @@
 import sqlite3
-'''
-Generic db connection provider
-'''
-class DBbase:
 
+
+class DBbase:
+    """
+    Generic db connection provider
+    """
     _conn = None
     _cursor = None
 
