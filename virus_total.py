@@ -1,6 +1,5 @@
 from vault import Vault
 import json
-import hashlib
 from virus_total_apis import PublicApi as VirusTotalPublicApi
 
 
