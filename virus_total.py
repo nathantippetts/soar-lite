@@ -10,7 +10,6 @@ class VirusTotal(Vault):
     def __init__(self):
         super().__init__()
         self.app = "virus_total"
-        super().reset_database()
         # Tries to fetch the API key, if it's not already there then ask the user to supply it
         try:
             self.API_KEY = super().get_apikey_from_db(self.app)
