@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from virus_total import VirusTotal
 app = Flask(__name__)
 
+# Placeholder content. Will be more dynamic in the future
 posts = [
     {
         "author": "KrebsOnSecurity",
