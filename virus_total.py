@@ -34,7 +34,7 @@ class VirusTotal:
         response = self.vt.get_url_report(self.query)
         return response
 
-    def vt_parse_info(self, response):
+    def vt_parse_scan_results(self, response):
         # Parses out the scan results into a dictionary
         hashes = []
         engines = []
@@ -44,4 +44,10 @@ class VirusTotal:
                     engines.append(j)
                     hashes.append(x)
         results = zip(engines, hashes)
+        return results
+
+    def vt_parse_scan_totals(self, response):
+        hits = response['results']['positives']
+        total = response['results']['total']
+        results = str(hits) + "/" + str(total)
         return results

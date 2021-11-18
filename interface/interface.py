@@ -42,9 +42,10 @@ def reputations():
 def hash_reputation():
     vt = VirusTotal()
     vt_hash_dict = vt.vt_hash_reputation()
-    vt_results = vt.vt_parse_info(vt_hash_dict)
+    vt_results = vt.vt_parse_scan_results(vt_hash_dict)
+    vt_totals = vt.vt_parse_scan_totals(vt_hash_dict)
     vt_query = vt.query
-    return render_template("reputation_results.html", title="Reputation Results", vt_hashes=vt_results, vt_query=vt_query)
+    return render_template("reputation_results.html", title="Reputation Results", vt_totals=vt_totals, vt_hashes=vt_results, vt_query=vt_query)
 
 
 if __name__ == "__main__":

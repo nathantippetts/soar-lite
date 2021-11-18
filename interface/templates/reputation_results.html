@@ -5,13 +5,13 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-headingOne">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-              VirusTotal
+              <strong>VirusTotal</strong>: {{ vt_totals }} scanners determined the file was malicious.
             </button>
           </h2>
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
               {% for hash in vt_hashes %}
-                <p class="dropdown-item">{{ hash }}</p>
+                <p class="dropdown-item"><strong>{{ hash[0] }}:</strong> Malicious = {{ hash[1]['detected'] }} | Attribution = {{ hash[1]['result'] }}</p>
               {% endfor %}
               <a href="https://www.virustotal.com/gui/file/{{ vt_query }}">Link to Results</a>
             </div>
