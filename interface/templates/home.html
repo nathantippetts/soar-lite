@@ -1,18 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
     {% for post in posts %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ post['url'] }}">{{ post['author'] }}</a>
-              <small class="text-muted">{{ post['date'] }}</small>
-            </div>
-            <h2><a class="article-title" href="{{ post['post_url'] }}">
-                {{ post['headline'] }}
-            </a></h2>
-            <p class="article-content">{{ post['description'] }}</p>
-          </div>
-        </article>
+        {% if post[1] %}
+            {% for i in post%}
+                 <article class="media content-section">
+                  <div class="media-body">
+                    <div class="article-metadata">
+                      <a class="mr-2" href="{{ i['url'] }}">{{ i['author'] }}</a>
+                      <small class="text-muted">{{ i['date'] }}</small>
+                    </div>
+                    <h2><a class="article-title" href="{{ i['post_url'] }}">
+                        {{ i['headline'] }}
+                    </a></h2>
+                    <p class="article-content">{{ i['description'] }}</p>
+                  </div>
+                </article>
+            {% endfor %}
+        {% else %}
+            <article class="media content-section">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="{{ post['url'] }}">{{ post['author'] }}</a>
+                  <small class="text-muted">{{ post['date'] }}</small>
+                </div>
+                <h2><a class="article-title" href="{{ post['post_url'] }}">
+                    {{ post['headline'] }}
+                </a></h2>
+                <p class="article-content">{{ post['description'] }}</p>
+              </div>
+            </article>
+        {% endif %}
     {% endfor %}
 {% endblock content %}
 

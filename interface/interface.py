@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from virus_total import VirusTotal
-from blogs import krebs
+from blogs import krebs, threatpost
 
 app = Flask(__name__)
 
@@ -9,6 +9,7 @@ app = Flask(__name__)
 def home():
     posts = []
     posts.append(krebs())
+    posts.append(threatpost())
     return render_template("home.html", posts=posts, title="Home")
 
 
